@@ -10,18 +10,18 @@ import (
 	dataBaseAPI "github.com/dgraph-io/dgo/protos/api"
 )
 
-// Storage is a object with database resource
-type Storage struct {
+// Store is a object with database resource
+type Store struct {
 	GraphAddress  string
 	GraphGRPCHost string
 	GraphGRPCPort int
 
-	Client       *dataBaseClient.Dgraph
+	Client *dataBaseClient.Dgraph
 }
 
-// New is a constructor for Storage objects
-func New(host string, port int) *Storage {
-	storage := &Storage{}
+// New is a constructor for Store objects
+func New(host string, port int) *Store {
+	storage := &Store{}
 
 	storage.GraphGRPCHost = host
 	storage.GraphGRPCPort = port
@@ -30,8 +30,8 @@ func New(host string, port int) *Storage {
 	return storage
 }
 
-func (storage *Storage) prepareDataBaseClient() (*dataBaseClient.Dgraph, error) {
-	conn, err := grpc.Dial(storage.GraphAddress, grpc.WithInsecure())
+func (store *Store) prepareDataBaseClient() (*dataBaseClient.Dgraph, error) {
+	conn, err := grpc.Dial(store.GraphAddress, grpc.WithInsecure())
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -42,4 +42,3 @@ func (storage *Storage) prepareDataBaseClient() (*dataBaseClient.Dgraph, error) 
 
 	return databaseGraph, nil
 }
-
