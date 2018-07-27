@@ -30,8 +30,8 @@ func New(host string, port int) *Store {
 	return storage
 }
 
-func (store *Store) prepareDataBaseClient() (*dataBaseClient.Dgraph, error) {
-	conn, err := grpc.Dial(store.GraphAddress, grpc.WithInsecure())
+func (store *Store) PrepareDataBaseClient(address string) (*dataBaseClient.Dgraph, error) {
+	conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		log.Println(err)
 		return nil, err
