@@ -1,7 +1,6 @@
 package storage
 
 import (
-	"fmt"
 	"log"
 
 	"google.golang.org/grpc"
@@ -12,26 +11,20 @@ import (
 
 // Store is a object with database resource
 type Store struct {
-	GraphAddress  string
-	GraphGRPCHost string
-	GraphGRPCPort int
-
-	Client *dataBaseClient.Dgraph
+	DatabaseGateway string
+	Client          *dataBaseClient.Dgraph
 }
 
 // New is a constructor for Store objects
-func New(host string, port int) *Store {
-	storage := &Store{}
-
-	storage.GraphGRPCHost = host
-	storage.GraphGRPCPort = port
-	storage.GraphAddress = fmt.Sprintf("%v:%v", host, port)
+func New(databaseGateway string) *Store {
+	storage := &Store{
+		DatabaseGateway: databaseGateway}
 
 	return storage
 }
 
-func (store *Store) PrepareDataBaseClient(address string) (*dataBaseClient.Dgraph, error) {
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+func (store *Store) PrepareDataBaseClient(databaseGateway string) (*dataBaseClient.Dgraph, error) {
+	conn, err := grpc.Dial(databaseGateway, grpc.WithInsecure())
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -39,6 +32,8 @@ func (store *Store) PrepareDataBaseClient(address string) (*dataBaseClient.Dgrap
 
 	baseClient := dataBaseAPI.NewDgraphClient(conn)
 	databaseGraph := dataBaseClient.NewDgraphClient(baseClient)
+
+	store.Client = databaseGraph
 
 	return databaseGraph, nil
 }
