@@ -49,5 +49,6 @@ type Company struct {
 	IRI        string     `json:"companyIri,omitempty"`
 	Name       string     `json:"companyName,omitempty"`
 	Categories []Category `json:"has_category,omitempty"`
+	Products   []Product  `json:"has_product,omitempty"`
 	IsActive   bool       `json:"companyIsActive"`
 }
