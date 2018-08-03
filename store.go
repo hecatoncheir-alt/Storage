@@ -47,3 +47,24 @@ func (store *Store) Query(request string) (response []byte, err error) {
 
 	return resp.GetJson(), nil
 }
+
+func (store *Store) Mutate(setJson []byte) (uid string, err error) {
+	client, err := store.PrepareDataBaseClient(store.DatabaseGateway)
+	if err != nil {
+		return "", err
+	}
+
+	mutation := &dataBaseAPI.Mutation{
+		SetJson: setJson,
+		CommitNow: true}
+
+	transaction := client.NewTxn()
+	assigned, err := transaction.Mutate(context.Background(), mutation)
+	if err != nil {
+		return "", err
+	}
+
+	uid = assigned.Uids["blank-0"]
+
+	return uid, nil
+}
