@@ -5,6 +5,7 @@ import (
 	"google.golang.org/grpc"
 	"log"
 
+	"fmt"
 	dataBaseClient "github.com/dgraph-io/dgo"
 	dataBaseAPI "github.com/dgraph-io/dgo/protos/api"
 )
@@ -55,7 +56,7 @@ func (store *Store) Mutate(setJson []byte) (uid string, err error) {
 	}
 
 	mutation := &dataBaseAPI.Mutation{
-		SetJson: setJson,
+		SetJson:   setJson,
 		CommitNow: true}
 
 	transaction := client.NewTxn()
@@ -67,4 +68,26 @@ func (store *Store) Mutate(setJson []byte) (uid string, err error) {
 	uid = assigned.Uids["blank-0"]
 
 	return uid, nil
+}
+
+func (store *Store) SetNQuads(subject, predicate, object string) error {
+
+	final := fmt.Sprintf(`<%s> <%s> %s .`, subject, predicate, object)
+
+	mutation := dataBaseAPI.Mutation{
+		SetNquads: []byte(final),
+		CommitNow: true}
+
+	client, err := store.PrepareDataBaseClient(store.DatabaseGateway)
+	if err != nil {
+		return err
+	}
+
+	transaction := client.NewTxn()
+	_, err = transaction.Mutate(context.Background(), &mutation)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
