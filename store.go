@@ -55,12 +55,12 @@ func (store *Store) Mutate(setJson []byte) (uid string, err error) {
 		return "", err
 	}
 
-	mutation := &dataBaseAPI.Mutation{
+	mutation := dataBaseAPI.Mutation{
 		SetJson:   setJson,
 		CommitNow: true}
 
 	transaction := client.NewTxn()
-	assigned, err := transaction.Mutate(context.Background(), mutation)
+	assigned, err := transaction.Mutate(context.Background(), &mutation)
 	if err != nil {
 		return "", err
 	}
