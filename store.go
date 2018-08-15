@@ -15,12 +15,6 @@ type Store struct {
 	DatabaseGateway string
 }
 
-// New is a constructor for Store objects
-func New(databaseGateway string) *Store {
-	storage := &Store{DatabaseGateway: databaseGateway}
-	return storage
-}
-
 func (store *Store) PrepareDataBaseClient(databaseGateway string) (*dataBaseClient.Dgraph, error) {
 	conn, err := grpc.Dial(databaseGateway, grpc.WithInsecure())
 	if err != nil {
