@@ -34,6 +34,7 @@ type Product struct {
 	Prices           []Price    `json:"has_price,omitempty"`
 }
 
+// ProductsByNameForPage is a structure of products find in database for one page
 type ProductsByNameForPage struct {
 	Products []Product
 
