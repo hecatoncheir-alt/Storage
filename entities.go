@@ -1,6 +1,8 @@
 package storage
 
-import "time"
+import (
+	"time"
+)
 
 // City is a structure of prices in database
 type City struct {
@@ -30,6 +32,17 @@ type Product struct {
 	Categories       []Category `json:"belongs_to_category,omitempty"`
 	Companies        []Company  `json:"belongs_to_company,omitempty"`
 	Prices           []Price    `json:"has_price,omitempty"`
+}
+
+type ProductsByNameForPage struct {
+	Products []Product
+
+	CurrentPage,
+	TotalProductsForOnePage,
+	TotalProductsFound int
+
+	SearchedName,
+	Language string
 }
 
 // Category is a structure of ont Category in database
