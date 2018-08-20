@@ -66,3 +66,30 @@ type Company struct {
 	Products   []Product  `json:"has_product,omitempty"`
 	IsActive   bool       `json:"companyIsActive"`
 }
+
+// PageInstruction is a structure for parser of products
+type PageInstruction struct {
+	ID                         string `json:"uid,omitempty"`
+	Path                       string `json:"path,omitempty"`
+	PageInPaginationSelector   string `json:"pageInPaginationSelector,omitempty"`
+	PreviewImageOfItemSelector string `json:"previewImageOfSelector,omitempty"`
+	PageParamPath              string `json:"pageParamPath,omitempty"`
+	CityParamPath              string `json:"cityParamPath,omitempty"`
+	ItemSelector               string `json:"itemSelector,omitempty"`
+	NameOfItemSelector         string `json:"nameOfItemSelector,omitempty"`
+	LinkOfItemSelector         string `json:"linkOfItemSelector,omitempty"`
+	CityInCookieKey            string `json:"cityInCookieKey,omitempty"`
+	CityIDForCookie            string `json:"cityIdForCookie,omitempty"`
+	PriceOfItemSelector        string `json:"priceOfItemSelector,omitempty"`
+}
+
+// Instruction is a structure of instruction for parse
+type Instruction struct {
+	ID               string            `json:"uid,omitempty"`
+	Language         string            `json:"instructionLanguage,omitempty"`
+	IsActive         bool              `json:"instructionIsActive"`
+	PagesInstruction []PageInstruction `json:"has_page,omitempty"`
+	Cities           []City            `json:"has_city,omitempty"`
+	Companies        []Company         `json:"has_company,omitempty"`
+	Categories       []Category        `json:"has_category,omitempty"`
+}
