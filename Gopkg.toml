@@ -1,0 +1,11 @@
+[[constraint]]
+  branch = "master"
+  name = "github.com/dgraph-io/dgo"
+
+[[constraint]]
+  name = "google.golang.org/grpc"
+  version = "1.14.0"
+
+[prune]
+  go-tests = true
+  unused-packages = true
