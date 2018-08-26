@@ -85,3 +85,23 @@ func (store *Store) SetNQuads(subject, predicate, object string) error {
 
 	return nil
 }
+
+func (store *Store) DeleteJSON(encodedJSON []byte) error {
+
+	mutation := dataBaseAPI.Mutation{
+		DeleteJson: encodedJSON,
+		CommitNow:  true}
+
+	client, err := store.PrepareDataBaseClient(store.DatabaseGateway)
+	if err != nil {
+		return err
+	}
+
+	transaction := client.NewTxn()
+	_, err = transaction.Mutate(context.Background(), &mutation)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
