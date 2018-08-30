@@ -66,7 +66,7 @@ func (store *Store) Mutate(setJson []byte) (uid string, err error) {
 
 func (store *Store) SetNQuads(subject, predicate, object string) error {
 
-	final := fmt.Sprintf(`<%s> <%s> %s .`, subject, predicate, object)
+	final := fmt.Sprintf(`<%s> <%s> <%s> .`, subject, predicate, object)
 
 	mutation := dataBaseAPI.Mutation{
 		SetNquads: []byte(final),
