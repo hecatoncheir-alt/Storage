@@ -64,7 +64,37 @@ func (store *Store) Mutate(setJson []byte) (uid string, err error) {
 	return uid, nil
 }
 
-func (store *Store) SetNQuads(subject, predicate, object string) error {
+func (store *Store) AddLanguage(entityID, field, language string) error {
+
+	subject := entityID
+	predicate := field
+	object := language
+
+	final := fmt.Sprintf(`<%s> <%s> %s .`, subject, predicate, object)
+
+	mutation := dataBaseAPI.Mutation{
+		SetNquads: []byte(final),
+		CommitNow: true}
+
+	client, err := store.PrepareDataBaseClient(store.DatabaseGateway)
+	if err != nil {
+		return err
+	}
+
+	transaction := client.NewTxn()
+	_, err = transaction.Mutate(context.Background(), &mutation)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (store *Store) AddEntityToOtherEntity(entityID, field, addedEntityID string) error {
+
+	subject := entityID
+	predicate := field
+	object := addedEntityID
 
 	final := fmt.Sprintf(`<%s> <%s> <%s> .`, subject, predicate, object)
 
