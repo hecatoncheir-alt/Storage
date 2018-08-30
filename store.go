@@ -43,7 +43,7 @@ func (store *Store) Query(request string) (response []byte, err error) {
 	return resp.GetJson(), nil
 }
 
-func (store *Store) Mutate(setJson []byte) (uid string, err error) {
+func (store *Store) CreateJSON(setJson []byte) (uid string, err error) {
 	client, err := store.PrepareDataBaseClient(store.DatabaseGateway)
 	if err != nil {
 		return "", err
